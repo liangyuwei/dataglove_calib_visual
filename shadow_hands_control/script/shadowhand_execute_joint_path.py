@@ -18,16 +18,56 @@ import getopt # process the terminal arguments
 import h5py
 
 
-def linear_map():
+# linear mapping: (x - x_min) / (x_max - x_min) == (x_hat - x_min_hat) / (x_max_hat - x_min_hat)
+def linear_map(x_min, x_max, x, x_min_hat, x_max_hat):
+  return (x - x_min) / (x_max - x_min) * (x_max_hat - x_min_hat) + x_min_hat
+
+
+# process one path point 
+def sr_linear_map(human_joint_angles):
+  # initialization
+  srhand_joint_angles = np.zeros(human_joint_angles.shape)
+
+  # preparation (from start to final: flexion and abduction!!! note the direction of motion!!!)
+  abduction = 15 * math.pi / 180.0 # 0.35 max, approximately +-20 deg
+  # SR hand - # FF, MF, RF, LF, TH
+  sr_start = np.array([-abduction, 0, 0, 0, \ 
+                      ])
+  sr_final = np.array([abduction, 1.56, 1.56, 1.56, \
+                      ]) 
+  hm_start = np.array([0,    0, 53,  0,   0, 30,  0,   0, 22,  0,   0, 35,  0,   0,  0]) # modify index-middle abduction angle range to allow finger crossing..
+            # np.array([0,    0, 53,  0,   0, 22,  0,   0, 22,  0,   0, 35,  0,   0,  0])
+  hm_final = np.array([45, 100,  0, 90, 120,  0, 90, 120,  0, 90, 120,  0, 90, 120, 58]) # in dataglove 's sequence
+
+  # joint matching and mapping(direction + offset)
+ constraint_data.l_robot_finger_start <<  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.3,  0.1,  0.0,  0.0; 
+  constraint_data.l_robot_finger_final << -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -0.75, 0.0, -0.2, -0.15;  
+  constraint_data.r_robot_finger_start <<  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.3, 0.1,  0.0,  0.0;
+  constraint_data.r_robot_finger_final << -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.0, 0.0, -0.2, -0.15; // right and left hands' joint ranges are manually set to be the same, but according to Inspire Hand Inc, this will keep changing in the future.
 
 
 
 
+  constraint_data.glove_start << 0,    0, 53,  0,   0, 22,  0,   0, 22,  0,   0, 35,  0,   0;
+  constraint_data.glove_start = constraint_data.glove_start * M_PI / 180.0; // in radius  
+  constraint_data.glove_final << 45, 100,  0, 90, 120,  0, 90, 120,  0, 90, 120,  0, 90, 120;
+  constraint_data.glove_final = constraint_data.glove_final * M_PI / 180.0; 
 
-if __name__ == '__main__':
+
+
+  return srhand_joint_angles
+
+
+# arrange mapping for a whole joint path
+def map_glove_to_srhand(human_hand_path):
+
+
+
+
+def main():
 
   file_name = "glove-calib-2020-11-02.h5"
-  test_seq_name = 'test_seq_1' 
+  test_seq_name = 'test_finger_1/glove_angle' # 'test_finger_1_calibrated'
 
   try:
     options, args = getopt.getopt(sys.argv[1:], "hf:t:", ["help", "file-name=", "test-seq-name"])
@@ -66,13 +106,20 @@ if __name__ == '__main__':
     right_arm_group = moveit_commander.MoveGroupCommander("right_arm")
     dual_arms_group = moveit_commander.MoveGroupCommander("dual_arms")
     '''
-    dual_arms_with_hands_group = moveit_commander.MoveGroupCommander("dual_arms_with_hands")
+    # dual_arms_with_hands_group = moveit_commander.MoveGroupCommander("dual_arms_with_hands")
 
 
     ### Read h5 file for dataglove data
     f = h5py.File(file_name, "r")
-    hand_path_array = f[test_seq_name]
+    hand_path_array = f[test_seq_name][:] 
     f.close()
+    print('hand_path_array shape is ({} x {})'.format(hand_path_array.shape[0], hand_path_array.shape[1]))
+    
+
+    ### Limits data for linear mapping
+    
+    import pdb
+    pdb.set_trace()
 
 
     ### Arms: Go to start positions
@@ -191,7 +238,9 @@ if __name__ == '__main__':
 
 
 
+if __name__ == '__main__':
 
+  main()
 
 
 
