@@ -145,85 +145,68 @@ def main():
 
     ### Perform one-to-one linear mapping
     sr_hand_path = map_glove_to_srhand(human_hand_path)
-    import pdb
-    pdb.set_trace()
 
 
     ### Hands: Go to start positions
-    print "============ Both hands go to initial positions..."
-    dual_hands_start = sr_hand_path[0, :].tolist()
+    print "============ Both hands go to a fixed feasible initial positions..."
+    q_init = np.zeros(44)
+    dual_hands_start = q_init.tolist() #sr_hand_path[0, :].tolist()
     dual_hands_group.allow_replanning(True)
     dual_hands_group.go(dual_hands_start, wait=True)
     dual_hands_group.stop()
-    import pdb
-    pdb.set_trace()
+
 
     ### Construct a plan
-    print "============ Construct a plan of two arms' motion..."
+    print("============ Construct a plan of two arms' motion...")
     cartesian_plan = moveit_msgs.msg.RobotTrajectory()
     cartesian_plan.joint_trajectory.header.frame_id = '/world'
-    cartesian_plan.joint_trajectory.joint_names = ['yumi_joint_1_l', 'yumi_joint_2_l', 'yumi_joint_7_l', 'yumi_joint_3_l', 'yumi_joint_4_l', 'yumi_joint_5_l', 'yumi_joint_6_l'] \
-    + ['link1', 'link11', 'link2', 'link22', 'link3', 'link33', 'link4', 'link44', 'link5', 'link51', 'link52', 'link53'] \
-    + ['yumi_joint_1_r', 'yumi_joint_2_r', 'yumi_joint_7_r', 'yumi_joint_3_r', 'yumi_joint_4_r', 'yumi_joint_5_r', 'yumi_joint_6_r'] \
-    + ['Link1', 'Link11', 'Link2', 'Link22', 'Link3', 'Link33', 'Link4', 'Link44', 'Link5', 'Link51', 'Link52', 'Link53']
-
-    # structure: left arm, left hand, right arm, right hand; different from the result of IK
+    cartesian_plan.joint_trajectory.joint_names = ['lh_FFJ4', 'lh_FFJ3', 'lh_FFJ2', 'lh_FFJ1'] \
+                  + ['lh_MFJ4', 'lh_MFJ3', 'lh_MFJ2', 'lh_MFJ1'] \
+                  + ['lh_RFJ4', 'lh_RFJ3', 'lh_RFJ2', 'lh_RFJ1'] \
+                  + ['lh_LFJ5', 'lh_LFJ4', 'lh_LFJ3', 'lh_LFJ2', 'lh_LFJ1'] \
+                  + ['lh_THJ5', 'lh_THJ4', 'lh_THJ3', 'lh_THJ2', 'lh_THJ1'] \
+                  + ['rh_FFJ4', 'rh_FFJ3', 'rh_FFJ2', 'rh_FFJ1'] \
+                  + ['rh_MFJ4', 'rh_MFJ3', 'rh_MFJ2', 'rh_MFJ1'] \
+                  + ['rh_RFJ4', 'rh_RFJ3', 'rh_RFJ2', 'rh_RFJ1'] \
+                  + ['rh_LFJ5', 'rh_LFJ4', 'rh_LFJ3', 'rh_LFJ2', 'rh_LFJ1'] \
+                  + ['rh_THJ5', 'rh_THJ4', 'rh_THJ3', 'rh_THJ2', 'rh_THJ1'] \
 
     # add a non-colliding initial state to the trajectory for it to be able to execute via MoveIt
     path_point = trajectory_msgs.msg.JointTrajectoryPoint()
-    path_point.positions = q_init #arm_path_array[0, :7].tolist() + arm_path_array[0, 14:26].tolist() + arm_path_array[0, 7:14].tolist() + arm_path_array[0, 26:38].tolist()
-    t = rospy.Time(0) #rospy.Time(i*1.0/15.0) # rospy.Time(timestamp_array[i]) # 15 Hz # rospy.Time(0.5*i) #
+    path_point.positions = q_init.tolist()
+    t = rospy.Time(0) 
     path_point.time_from_start.secs = t.secs
     path_point.time_from_start.nsecs = t.nsecs        
     cartesian_plan.joint_trajectory.points.append(copy.deepcopy(path_point))
     
     # add the original initial point for delay demonstration
     path_point = trajectory_msgs.msg.JointTrajectoryPoint()
-    path_point.positions = arm_path_array[0, :7].tolist() + arm_path_array[0, 14:26].tolist() + arm_path_array[0, 7:14].tolist() + arm_path_array[0, 26:38].tolist()
-    t = rospy.Time(0.1) #rospy.Time(i*1.0/15.0) # rospy.Time(timestamp_array[i]) # 15 Hz # rospy.Time(0.5*i) #
+    path_point.positions = sr_hand_path[0, :].tolist()
+    t = rospy.Time(0.1) # jump to the actual initial state immediately
     path_point.time_from_start.secs = t.secs
     path_point.time_from_start.nsecs = t.nsecs        
     cartesian_plan.joint_trajectory.points.append(copy.deepcopy(path_point))
     
     t_delay = 2.0  # delay for 2 seconds before executing the motion 
 
-    # add velocity and acceleration information
-    '''
-    last_pos = np.array(path_point.positions)
-    last_vec = np.zeros(38) 
-    last_acc = np.zeros(38)
-    '''
-
-    for i in range(arm_path_array.shape[0]):
+    # add the whole path
+    for i in range(sr_hand_path.shape[0]):
         path_point = trajectory_msgs.msg.JointTrajectoryPoint()
-        path_point.positions = arm_path_array[i, :7].tolist() + arm_path_array[i, 14:26].tolist() + arm_path_array[i, 7:14].tolist() + arm_path_array[i, 26:38].tolist()
-        '''
-        # set velocity
-        dt = 1.0/15.0
-        cur_pos = np.array(path_point.positions)
-        path_point.velocities = ((cur_pos - last_pos) / dt).tolist()
-        # set acceleration
-        cur_vel = np.array(path_point.velocities)
-        path_point.accelerations = ((cur_vel - last_vec) / dt).tolist()
-        # save the current vel and acc
-        last_pos = cur_pos
-        last_vec = cur_vel
-        last_acc = np.array(path_point.accelerations)
-        # set time
-        '''
-        t = rospy.Time(t_delay + i*1.0/150.0) #rospy.Time(i*1.0/15.0) # rospy.Time(timestamp_array[i]) # 15 Hz # rospy.Time(0.5*i) #
+        path_point.positions = sr_hand_path[i, :]
+        t = rospy.Time(t_delay + i*1.0/30.0) #rospy.Time(i*1.0/15.0) # rospy.Time(timestamp_array[i]) # 15 Hz # rospy.Time(0.5*i) #
         path_point.time_from_start.secs = t.secs
         path_point.time_from_start.nsecs = t.nsecs        
         cartesian_plan.joint_trajectory.points.append(copy.deepcopy(path_point))
 
 
+    import pdb
+    pdb.set_trace()
+
     ### Execute the plan
     print "============ Execute the plan..."
     # execute the plan
-    import pdb
-    pdb.set_trace()
     print "============ Execute the planned path..."        
-    dual_arms_with_hands_group.execute(cartesian_plan, wait=True)
+    dual_hands_group.execute(cartesian_plan, wait=True)
 
 
   except rospy.ROSInterruptException:

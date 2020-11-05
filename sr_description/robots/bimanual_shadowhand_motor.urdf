@@ -146,11 +146,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_WRJ2">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_WRJ2">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <link name="rh_palm">
@@ -253,11 +253,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_WRJ1">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_WRJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -314,11 +314,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_FFJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_FFJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -375,11 +375,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_FFJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_FFJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -449,13 +449,26 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_FFJ0">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_FFJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <secondJoint name="rh_FFJ2"/>
+    <!-- <secondJoint name="${prefix}${joint_prefix}J2"/> -->
+  </transmission>
+  <!-- Added by LYW, 2020-11-05: Separate the coupled joint -->
+  <transmission name="rh_ffmiddle_transmission2">
+    <!--type>sr_mechanism_model/J0Transmission</type-->
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="rh_FFJ1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="rh_FFJ2">
+      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
   <gazebo reference="rh_ffmiddle">
@@ -580,11 +593,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_MFJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_MFJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -641,11 +654,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_MFJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_MFJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -715,13 +728,26 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_MFJ0">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_MFJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <secondJoint name="rh_MFJ2"/>
+    <!-- <secondJoint name="${prefix}${joint_prefix}J2"/> -->
+  </transmission>
+  <!-- Added by LYW, 2020-11-05: Separate the coupled joint -->
+  <transmission name="rh_mfmiddle_transmission2">
+    <!--type>sr_mechanism_model/J0Transmission</type-->
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="rh_MFJ1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="rh_MFJ2">
+      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
   <gazebo reference="rh_mfmiddle">
@@ -846,11 +872,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_RFJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_RFJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -907,11 +933,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_RFJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_RFJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -981,13 +1007,26 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_RFJ0">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_RFJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <secondJoint name="rh_RFJ2"/>
+    <!-- <secondJoint name="${prefix}${joint_prefix}J2"/> -->
+  </transmission>
+  <!-- Added by LYW, 2020-11-05: Separate the coupled joint -->
+  <transmission name="rh_rfmiddle_transmission2">
+    <!--type>sr_mechanism_model/J0Transmission</type-->
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="rh_RFJ1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="rh_RFJ2">
+      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
   <gazebo reference="rh_rfmiddle">
@@ -1111,11 +1150,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_LFJ5">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_LFJ5">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -1173,11 +1212,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_LFJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_LFJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -1234,11 +1273,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_LFJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_LFJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -1308,13 +1347,26 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_LFJ0">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_LFJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <secondJoint name="rh_LFJ2"/>
+    <!-- <secondJoint name="${prefix}${joint_prefix}J2"/> -->
+  </transmission>
+  <!-- Added by LYW, 2020-11-05: Separate the coupled joint -->
+  <transmission name="rh_lfmiddle_transmission2">
+    <!--type>sr_mechanism_model/J0Transmission</type-->
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="rh_LFJ1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="rh_LFJ2">
+      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
   <gazebo reference="rh_lfmiddle">
@@ -1440,11 +1492,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_THJ5">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_THJ5">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -1503,11 +1555,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_THJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_THJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -1566,11 +1618,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_THJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_THJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -1635,11 +1687,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_THJ2">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_THJ2">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -1735,11 +1787,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="rh_THJ1">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="rh_THJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <joint name="right_hand_to_left_hand" type="fixed">
@@ -1844,11 +1896,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_WRJ2">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_WRJ2">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <link name="lh_palm">
@@ -1951,11 +2003,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_WRJ1">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_WRJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2012,11 +2064,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_FFJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_FFJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2073,11 +2125,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_FFJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_FFJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2147,13 +2199,26 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_FFJ0">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_FFJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <secondJoint name="lh_FFJ2"/>
+    <!-- <secondJoint name="${prefix}${joint_prefix}J2"/> -->
+  </transmission>
+  <!-- Added by LYW, 2020-11-05: Separate the coupled joint -->
+  <transmission name="lh_ffmiddle_transmission2">
+    <!--type>sr_mechanism_model/J0Transmission</type-->
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="lh_FFJ1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="lh_FFJ2">
+      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
   <gazebo reference="lh_ffmiddle">
@@ -2278,11 +2343,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_MFJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_MFJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2339,11 +2404,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_MFJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_MFJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2413,13 +2478,26 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_MFJ0">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_MFJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <secondJoint name="lh_MFJ2"/>
+    <!-- <secondJoint name="${prefix}${joint_prefix}J2"/> -->
+  </transmission>
+  <!-- Added by LYW, 2020-11-05: Separate the coupled joint -->
+  <transmission name="lh_mfmiddle_transmission2">
+    <!--type>sr_mechanism_model/J0Transmission</type-->
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="lh_MFJ1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="lh_MFJ2">
+      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
   <gazebo reference="lh_mfmiddle">
@@ -2544,11 +2622,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_RFJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_RFJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2605,11 +2683,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_RFJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_RFJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2679,13 +2757,26 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_RFJ0">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_RFJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <secondJoint name="lh_RFJ2"/>
+    <!-- <secondJoint name="${prefix}${joint_prefix}J2"/> -->
+  </transmission>
+  <!-- Added by LYW, 2020-11-05: Separate the coupled joint -->
+  <transmission name="lh_rfmiddle_transmission2">
+    <!--type>sr_mechanism_model/J0Transmission</type-->
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="lh_RFJ1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="lh_RFJ2">
+      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
   <gazebo reference="lh_rfmiddle">
@@ -2809,11 +2900,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_LFJ5">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_LFJ5">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2871,11 +2962,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_LFJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_LFJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -2932,11 +3023,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_LFJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_LFJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -3006,13 +3097,26 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_LFJ0">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_LFJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <secondJoint name="lh_LFJ2"/>
+    <!-- <secondJoint name="${prefix}${joint_prefix}J2"/> -->
+  </transmission>
+  <!-- Added by LYW, 2020-11-05: Separate the coupled joint -->
+  <transmission name="lh_lfmiddle_transmission2">
+    <!--type>sr_mechanism_model/J0Transmission</type-->
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="lh_LFJ1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="lh_LFJ2">
+      <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
   <gazebo reference="lh_lfmiddle">
@@ -3138,11 +3242,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_THJ5">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_THJ5">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -3201,11 +3305,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_THJ4">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_THJ4">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -3264,11 +3368,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_THJ3">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_THJ3">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -3333,11 +3437,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_THJ2">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_THJ2">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
   <!-- prefix can be anything but usually is "r_" or  "l_" for right and left hands distinction -->
@@ -3433,11 +3537,11 @@
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="lh_THJ1">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
     <joint name="lh_THJ1">
       <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
 </robot>

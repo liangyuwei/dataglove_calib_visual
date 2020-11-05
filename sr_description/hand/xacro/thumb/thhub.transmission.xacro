@@ -27,11 +27,11 @@
                 <type>transmission_interface/SimpleTransmission</type>
                 <actuator name="${prefix}THJ3">
                     <mechanicalReduction>1</mechanicalReduction>
-                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
                 </actuator>
                 <joint name="${prefix}THJ3">
                     <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
-                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
                 </joint>
             </transmission>
         </xacro:unless>

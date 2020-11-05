@@ -22,5 +22,5 @@ name="bimanual_shadowhand_motor">
   <xacro:shadowhand muscletrans="false" muscle="false" bio="false" bt_sp="true"
   ubi="false" eli="false" reflect="-1.0" prefix="lh_" lf="true" />
 
-
+ 
 </robot>
