@@ -18,50 +18,89 @@ import getopt # process the terminal arguments
 import h5py
 
 
-# linear mapping: (x - x_min) / (x_max - x_min) == (x_hat - x_min_hat) / (x_max_hat - x_min_hat)
+# Linear mapping: (x - x_min) / (x_max - x_min) == (x_hat - x_min_hat) / (x_max_hat - x_min_hat)
 def linear_map(x_min, x_max, x, x_min_hat, x_max_hat):
   return (x - x_min) / (x_max - x_min) * (x_max_hat - x_min_hat) + x_min_hat
 
 
-# process one path point 
+### Process one path point 
 def sr_linear_map(human_joint_angles):
-  # initialization
-  srhand_joint_angles = np.zeros(human_joint_angles.shape)
+  
+  ## initialization
+  sr_hand_dof = 22
+  srhand_joint_angles = np.zeros(sr_hand_dof)
 
-  # preparation (from start to final: flexion and abduction!!! note the direction of motion!!!)
+  ## preparation (from start to final: flexion and abduction!!! note the direction of motion!!!)
   abduction = 15 * math.pi / 180.0 # 0.35 max, approximately +-20 deg
   # SR hand - # FF, MF, RF, LF, TH
-  sr_start = np.array([-abduction, 0, 0, 0, \ 
-                      ])
-  sr_final = np.array([abduction, 1.56, 1.56, 1.56, \
-                      ]) 
+  # actually, one-to-one is not suitable for Shadowhand's thumb joints;
+  # structural difference from the dataglove model... measured data of dataglove cannot be simply one-to-one mapped 
+  sr_start = np.array([abduction, 0, 0, 0, \
+                       abduction/2, 0, 0, 0, \
+                       0, 0, 0, 0, \
+                       0, 0, 0, 0, 0, \
+                       0, 0, 0, 0, 0])
+  sr_final = np.array([-abduction, 1.56, 1.56, 1.56, \
+                       -abduction/2, 1.56, 1.56, 1.56, \
+                       -abduction, 1.56, 1.56, 1.56, \
+                        0, -abduction, 1.56, 1.56, 1.56, \
+                        0, 1.21, 0, 0.69, 1.56]) 
   hm_start = np.array([0,    0, 53,  0,   0, 30,  0,   0, 22,  0,   0, 35,  0,   0,  0]) # modify index-middle abduction angle range to allow finger crossing..
             # np.array([0,    0, 53,  0,   0, 22,  0,   0, 22,  0,   0, 35,  0,   0,  0])
   hm_final = np.array([45, 100,  0, 90, 120,  0, 90, 120,  0, 90, 120,  0, 90, 120, 58]) # in dataglove 's sequence
 
-  # joint matching and mapping(direction + offset)
- constraint_data.l_robot_finger_start <<  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.3,  0.1,  0.0,  0.0; 
-  constraint_data.l_robot_finger_final << -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -0.75, 0.0, -0.2, -0.15;  
-  constraint_data.r_robot_finger_start <<  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.3, 0.1,  0.0,  0.0;
-  constraint_data.r_robot_finger_final << -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.6, -1.0, 0.0, -0.2, -0.15; // right and left hands' joint ranges are manually set to be the same, but according to Inspire Hand Inc, this will keep changing in the future.
-
-
-
-
-  constraint_data.glove_start << 0,    0, 53,  0,   0, 22,  0,   0, 22,  0,   0, 35,  0,   0;
-  constraint_data.glove_start = constraint_data.glove_start * M_PI / 180.0; // in radius  
-  constraint_data.glove_final << 45, 100,  0, 90, 120,  0, 90, 120,  0, 90, 120,  0, 90, 120;
-  constraint_data.glove_final = constraint_data.glove_final * M_PI / 180.0; 
-
-
+  ## one-to-one joint matching: 2 joint(wrist) + 22 joint(hand) = 24 joint; 2 DOFs(wrist) + 18 DOFs(hand) = 20 DOFs
+  # forefinger (abd/add -> flex/ext)
+  srhand_joint_angles[0] = linear_map(hm_start[5], hm_final[5], human_joint_angles[5], sr_start[0], sr_final[0])
+  srhand_joint_angles[1] = linear_map(hm_start[3], hm_final[3], human_joint_angles[3], sr_start[1], sr_final[1])
+  srhand_joint_angles[2] = linear_map(hm_start[4], hm_final[4], human_joint_angles[4], sr_start[2], sr_final[2])
+  srhand_joint_angles[3] = srhand_joint_angles[2] * 2.0 / 3.0 # two-thirds rule
+  # middle finger
+  srhand_joint_angles[4] = linear_map(hm_start[5], hm_final[5], human_joint_angles[5], 0.0, 0.0) # stick to neutral position
+  srhand_joint_angles[5] = linear_map(hm_start[6], hm_final[6], human_joint_angles[6], sr_start[5], sr_final[5])
+  srhand_joint_angles[6] = linear_map(hm_start[7], hm_final[7], human_joint_angles[7], sr_start[6], sr_final[6])
+  srhand_joint_angles[7] = srhand_joint_angles[6] * 2.0 / 3.0 # two-thirds rule
+  # ring finger
+  srhand_joint_angles[8] = linear_map(hm_start[8], hm_final[8], human_joint_angles[8], sr_start[8], sr_final[8])
+  srhand_joint_angles[9] = linear_map(hm_start[9], hm_final[9], human_joint_angles[9], sr_start[9], sr_final[9])
+  srhand_joint_angles[10] = linear_map(hm_start[10], hm_final[10], human_joint_angles[10], sr_start[10], sr_final[10])
+  srhand_joint_angles[11] = srhand_joint_angles[10] * 2.0 / 3.0 # two-thirds rule
+  # little finger
+  srhand_joint_angles[12] = 0.0 # joint between little finger and palm
+  srhand_joint_angles[13] = linear_map(hm_start[11], hm_final[11], human_joint_angles[11], sr_start[13], sr_final[13])
+  srhand_joint_angles[14] = linear_map(hm_start[12], hm_final[12], human_joint_angles[12], sr_start[14], sr_final[14])
+  srhand_joint_angles[15] = linear_map(hm_start[13], hm_final[13], human_joint_angles[13], sr_start[15], sr_final[15])
+  srhand_joint_angles[16] = srhand_joint_angles[15] * 2.0 / 3.0 # two-thirds rule
+  # forefinger
+  srhand_joint_angles[17] = 0.0 # fixed at 0, but there should be coupling...
+  srhand_joint_angles[18] = linear_map(hm_start[14], hm_final[14], human_joint_angles[14], sr_start[18], sr_final[18])
+  srhand_joint_angles[19] = 0.0 # fixed at 0, but there should be coupling...
+  srhand_joint_angles[20] = linear_map(hm_start[1], hm_final[1], human_joint_angles[1], sr_start[20], sr_final[20])
+  srhand_joint_angles[21] = linear_map(hm_start[0], hm_final[0], human_joint_angles[0], sr_start[21], sr_final[21])
 
   return srhand_joint_angles
 
 
-# arrange mapping for a whole joint path
+### Arrange mapping for a whole joint path
 def map_glove_to_srhand(human_hand_path):
+  # input is of the size (N x 30), containing data of two hands
 
+  # prep
+  sr_hand_dof = 22
+  sr_hand_path = np.zeros((human_hand_path.shape[0], 2*sr_hand_dof))
 
+  import pdb
+  pdb.set_trace()
+  print(">>>> Iterate to process the input dataglove data...")
+  # iterate to process
+  for n in range(human_hand_path.shape[0]):
+    print("== processing point {}/{}".format((n+1), human_hand_path.shape[0]))
+    # left 
+    sr_hand_path[n, :sr_hand_dof] = sr_linear_map(human_hand_path[n, :15])
+    # right 
+    sr_hand_path[n, sr_hand_dof:] = sr_linear_map(human_hand_path[n, 15:])
+
+  return sr_hand_path
 
 
 def main():
@@ -92,74 +131,32 @@ def main():
 
   try:
 
-    ### Set up the moveit_commander
-    print "============ Setting up the moveit_commander (press ctrl-d to exit) ..."
-    #tutorial = MoveGroupPythonIntefaceTutorial()
-
-
-    ### Set up groups
-    print "============ Set up group ..."
-    '''
-    left_arm_group = moveit_commander.MoveGroupCommander("left_arm")
-    left_hand_group = moveit_commander.MoveGroupCommander("left_hand")
-    right_hand_group = moveit_commander.MoveGroupCommander("right_hand")
-    right_arm_group = moveit_commander.MoveGroupCommander("right_arm")
-    dual_arms_group = moveit_commander.MoveGroupCommander("dual_arms")
-    '''
-    # dual_arms_with_hands_group = moveit_commander.MoveGroupCommander("dual_arms_with_hands")
+    ### Set up move group
+    print("============ Set up Move Group ...")
+    dual_hands_group = moveit_commander.MoveGroupCommander("dual_hands")
 
 
     ### Read h5 file for dataglove data
     f = h5py.File(file_name, "r")
-    hand_path_array = f[test_seq_name][:] 
+    human_hand_path = f[test_seq_name][:]  # (N x 30) for both hands
     f.close()
-    print('hand_path_array shape is ({} x {})'.format(hand_path_array.shape[0], hand_path_array.shape[1]))
+    print('human_hand_path shape is ({} x {})'.format(human_hand_path.shape[0], human_hand_path.shape[1]))
     
 
-    ### Limits data for linear mapping
-    
+    ### Perform one-to-one linear mapping
+    sr_hand_path = map_glove_to_srhand(human_hand_path)
     import pdb
     pdb.set_trace()
-
-
-    ### Arms: Go to start positions
-    print "============ Both arms go to initial positions..."
-    q_init = np.zeros(38)
-    q_init[0:7] = [-1.5, -1.5, 1.5, 0.0, 0.0, 0.0, 0.0]
-    q_init[19:26] = [1.5, -1.5, -1.5, 0.0, 0.0, 0.0, 0.0]
-    # q_init = [-1.5, -1.5, 1.5, 0.0, 0.0, 0.0, 0.0] + arm_path_array[0, 14:26].tolist() + [1.5, -1.5, -1.5, 0.0, 0.0, 0.0, 0.0] + arm_path_array[0, 26:38].tolist()
-    dual_arms_with_hands_start = q_init #arm_path_array[0, :7].tolist() + arm_path_array[0, 14:26].tolist() + arm_path_array[0, 7:14].tolist() + arm_path_array[0, 26:38].tolist()
-    # group joints structure: left arm, left hand, right arm, right hand
-    # IK results structure: left arm(0-7), right arm(7-14), left hand(14-26), right hand(26-38)
-    dual_arms_with_hands_group.allow_replanning(True)
-    #dual_arms_with_hands_group.set_joint_value_target(dual_arms_with_hands_start)
-    dual_arms_with_hands_group.go(dual_arms_with_hands_start, wait=True)
-    dual_arms_with_hands_group.stop()
 
 
     ### Hands: Go to start positions
     print "============ Both hands go to initial positions..."
-    
-    ## left hand
-    print "====== Left hand reaching initial position..."
-    left_finger_goal = l_finger_pos.tolist()
-    left_hand_group.go(left_finger_goal, wait=True)
-    left_hand_group.stop()
-    ## right hand
-    print "====== Right hand reaching initial position..."
-    right_finger_goal = r_finger_pos.tolist()
-    right_hand_group.go(right_finger_goal, wait=True)
-    right_hand_group.stop()
-    
-    
+    dual_hands_start = sr_hand_path[0, :].tolist()
+    dual_hands_group.allow_replanning(True)
+    dual_hands_group.go(dual_hands_start, wait=True)
+    dual_hands_group.stop()
     import pdb
     pdb.set_trace()
-    dual_hands_group = moveit_commander.MoveGroupCommander("dual_hands")
-    dual_hands_goal = l_finger_pos.tolist() + r_finger_pos.tolist()
-    dual_hands_group.go(dual_hands_goal, wait=True)
-    dual_hands_group.stop()
-    
-
 
     ### Construct a plan
     print "============ Construct a plan of two arms' motion..."
