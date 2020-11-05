@@ -31,13 +31,15 @@
         <!-- motor hand -->
         <xacro:unless value="${muscletrans}">
             <transmission name="${prefix}${link_prefix}middle_transmission">
-                <type>sr_mechanism_model/J0Transmission</type>
+                <!--type>sr_mechanism_model/J0Transmission</type-->
+                <type>transmission_interface/SimpleTransmission</type>
                 <actuator name="${prefix}${joint_prefix}J0">
                     <mechanicalReduction>1</mechanicalReduction>
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 </actuator>
                 <joint name="${prefix}${joint_prefix}J1">
-                    <hardwareInterface>EffortJointInterface</hardwareInterface>
-                    <hardwareInterface>PositionJointInterface</hardwareInterface>
+                    <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 </joint>
                 <secondJoint name="${prefix}${joint_prefix}J2"/>
             </transmission>

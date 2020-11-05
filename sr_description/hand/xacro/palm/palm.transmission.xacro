@@ -24,13 +24,14 @@
         <!-- motor hand -->
         <xacro:unless value="${muscletrans}">
             <transmission name="${prefix}palm_transmission">
-                <type>sr_mechanism_model/SimpleTransmission</type>
+                <type>transmission_interface/SimpleTransmission</type>
                 <actuator name="${prefix}WRJ1">
                     <mechanicalReduction>1</mechanicalReduction>
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 </actuator>
                 <joint name="${prefix}WRJ1">
-                    <hardwareInterface>EffortJointInterface</hardwareInterface>
-                    <hardwareInterface>PositionJointInterface</hardwareInterface>
+                    <!--hardwareInterface>EffortJointInterface</hardwareInterface-->
+                    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 </joint>
             </transmission>
         </xacro:unless>

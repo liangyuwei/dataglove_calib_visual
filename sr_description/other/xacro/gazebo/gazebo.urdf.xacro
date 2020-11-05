@@ -5,7 +5,9 @@ xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
 
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotSimType>sr_gazebo_sim/SrGazeboHWSim</robotSimType>
+      <!--robotSimType>sr_gazebo_sim/SrGazeboHWSim</robotSimType-->
+      <legacyModeNS>true</legacyModeNS>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
   </gazebo>
 
