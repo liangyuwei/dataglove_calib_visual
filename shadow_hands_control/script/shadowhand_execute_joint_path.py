@@ -107,9 +107,10 @@ def main():
 
   file_name = "glove-calib-2020-11-02.h5"
   test_seq_name = 'test_finger_1/glove_angle' # 'test_finger_1_calibrated'
+  use_old_version = False
 
   try:
-    options, args = getopt.getopt(sys.argv[1:], "hf:t:", ["help", "file-name=", "test-seq-name"])
+    options, args = getopt.getopt(sys.argv[1:], "hf:t:o", ["help", "file-name=", "test-seq-name=", "old-version"])
   except getopt.GetoptError:
     sys.exit()
 
@@ -120,6 +121,7 @@ def main():
       print("Arguments:\n")
       print("   -f, --file-name=, specify the name of the h5 file to read joint trajectory from, suffix is required.\n")
       print("   -t, --test-seq-name=, specify the name of the test sequence to visualize.\n")
+      print("   -o, --old-version, specify to use the data collected by old version of dataglove (S14+).\n")
       exit(0)
     if option in ("-f", "--file-name"):
       print("Name of the h5 file to read joint trajectory from: {0}\n".format(value))
@@ -127,6 +129,9 @@ def main():
     if option in ("-t", "--test-seq-name"):
       print("Name of the test sequence data: {0}\n".format(value))
       test_seq_name = value
+    if option in ("-o", "--old-version"):
+      print("Using the old version of dataglove data...")
+      use_old_version = True
 
 
   try:
@@ -138,7 +143,17 @@ def main():
 
     ### Read h5 file for dataglove data
     f = h5py.File(file_name, "r")
-    human_hand_path = f[test_seq_name][:]  # (N x 30) for both hands
+    if use_old_version:
+      l_tmp = f[test_seq_name + '/l_glove_angle'][:]
+      r_tmp = f[test_seq_name + '/r_glove_angle'][:]
+      len_path = l_tmp.shape[0]
+      human_hand_path = np.concatenate((l_tmp, \
+                                        np.zeros((len_path,1)), \
+                                        r_tmp, \
+                                        np.zeros((len_path,1)), \
+                                        ), axis=1)
+    else:
+      human_hand_path = f[test_seq_name][:]  # (N x 30) for both hands
     f.close()
     print('human_hand_path shape is ({} x {})'.format(human_hand_path.shape[0], human_hand_path.shape[1]))
     
@@ -190,10 +205,14 @@ def main():
     t_delay = 2.0  # delay for 2 seconds before executing the motion 
 
     # add the whole path
+    if use_old_version:
+      freq = 15.0
+    else:
+      freq = 30.0
     for i in range(sr_hand_path.shape[0]):
         path_point = trajectory_msgs.msg.JointTrajectoryPoint()
         path_point.positions = sr_hand_path[i, :]
-        t = rospy.Time(t_delay + i*1.0/30.0) #rospy.Time(i*1.0/15.0) # rospy.Time(timestamp_array[i]) # 15 Hz # rospy.Time(0.5*i) #
+        t = rospy.Time(t_delay + i*1.0/(freq/3)) #rospy.Time(i*1.0/15.0) # rospy.Time(timestamp_array[i]) # 15 Hz # rospy.Time(0.5*i) #
         path_point.time_from_start.secs = t.secs
         path_point.time_from_start.nsecs = t.nsecs        
         cartesian_plan.joint_trajectory.points.append(copy.deepcopy(path_point))
