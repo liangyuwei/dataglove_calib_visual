@@ -1,0 +1,58 @@
+controller_list:
+  - name: fake_l_hand_controller
+    joints:
+      - link1
+      - link11
+      - link2
+      - link22
+      - link3
+      - link33
+      - link4
+      - link44
+      - link5
+      - link51
+      - link52
+      - link53
+  - name: fake_r_hand_controller
+    joints:
+      - Link1
+      - Link11
+      - Link2
+      - Link22
+      - Link3
+      - Link33
+      - Link4
+      - Link44
+      - Link5
+      - Link51
+      - Link52
+      - Link53
+  - name: fake_dual_hands_controller
+    joints:
+      - link1
+      - link11
+      - link2
+      - link22
+      - link3
+      - link33
+      - link4
+      - link44
+      - link5
+      - link51
+      - link52
+      - link53
+      - Link1
+      - Link11
+      - Link2
+      - Link22
+      - Link3
+      - Link33
+      - Link4
+      - Link44
+      - Link5
+      - Link51
+      - Link52
+      - Link53
+  - name: fake_Empty_controller
+    joints:
+      []

@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: inspire_hands_control
+    relative_path: urdf/bimanual_inspirehands.urdf
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/bimanual_inspirehands.srdf
+  CONFIG:
+    author_name: Yuwei Liang
+    author_email: lyw.liangyuwei@gmail.com
+    generated_timestamp: 1604918717
