@@ -35,19 +35,21 @@ def sr_linear_map(human_joint_angles):
   # SR hand - # FF, MF, RF, LF, TH
   # actually, one-to-one is not suitable for Shadowhand's thumb joints;
   # structural difference from the dataglove model... measured data of dataglove cannot be simply one-to-one mapped 
-  sr_start = np.array([abduction, 0, 0, 0, \
+  sr_start = np.array([0.345, 0, 0, 0, \
                        abduction/2, 0, 0, 0, \
                        0, 0, 0, 0, \
                        0, 0, 0, 0, 0, \
                        0, 0, 0, 0, 0])
-  sr_final = np.array([-abduction, 1.56, 1.56, 1.56, \
+  sr_final = np.array([-0.345, 1.56, 1.56, 1.56, \
                        -abduction/2, 1.56, 1.56, 1.56, \
                        -abduction, 1.56, 1.56, 1.56, \
                         0, -abduction, 1.56, 1.56, 1.56, \
                         0, 1.21, 0, 0.69, 1.56]) 
-  hm_start = np.array([0,    0, 53,  0,   0, 30,  0,   0, 22,  0,   0, 35,  0,   0,  0]) # modify index-middle abduction angle range to allow finger crossing..
+  # hm_start = np.array([0,    0, 53,  0,   0, 30,  0,   0, 22,  0,   0, 35,  0,   0,  0]) # modify index-middle abduction angle range to allow finger crossing..
+  hm_start = np.array([0,    0, 53,  0,   0, -30,  0,   0, 22,  0,   0, 35,  0,   0,  0]) # modify index-middle abduction angle range to allow finger crossing..
             # np.array([0,    0, 53,  0,   0, 22,  0,   0, 22,  0,   0, 35,  0,   0,  0])
-  hm_final = np.array([45, 100,  0, 90, 120,  0, 90, 120,  0, 90, 120,  0, 90, 120, 58]) # in dataglove 's sequence
+  # hm_final = np.array([45, 100,  0, 90, 120,  0, 90, 120,  0, 90, 120,  0, 90, 120, 58]) # in dataglove 's sequence
+  hm_final = np.array([45, 100,  0, 90, 120,  30, 90, 120,  0, 90, 120,  0, 90, 120, 58]) # in dataglove 's sequence
 
   ## one-to-one joint matching: 2 joint(wrist) + 22 joint(hand) = 24 joint; 2 DOFs(wrist) + 18 DOFs(hand) = 20 DOFs
   # forefinger (abd/add -> flex/ext)
