@@ -9,7 +9,7 @@ Panels:
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
       Splitter Ratio: 0.742560029
-    Tree Height: 405
+    Tree Height: 353
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -766,18 +766,18 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.00882412493
-        Y: -0.115090147
-        Z: 1.04308697e-07
+        X: 0.00293293595
+        Y: -0.108578041
+        Z: 2.23517986e-07
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.259796798
+      Pitch: 0.364796698
       Target Frame: world
       Value: XYOrbit (rviz)
-      Yaw: 4.63495016
+      Yaw: 4.70994949
     Saved: ~
 Window Geometry:
   Displays:
