@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Upload inspire hand's URDF -->
+  <param name="robot_description" textfile="$(find inspire_hands_control)/urdf/bimanual_inspirehands.urdf" /> 
+
+  <!-- Launch robot state publisher and joint state publisher -->
+  <arg name="use_gui" default="false"/>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="(arg use_gui)"/>
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen"/>
+  
+
+  <!-- Launch Gazebo for controller to be brought up -->
+  <!-- <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="recording" value="false"/>
+    <arg name="debug" value="false"/>
+  </include> -->
+  
+  <!-- Spawn robot into Gazebo -->
+  <!-- <node name="srhand_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+  args="-urdf -param robot_description -model bimanual_shadowhand_motor" /> -->
+  
+  <!-- ROS controllers -->
+  <!-- <rosparam file="$(find shadow_hands_control)/config/controllers.yaml" command="load"/>
+  <node name="srhand_joint_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" args="srhand_joint_controller - -timeout 50"/>
+  <node name="joint_state_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" args="joint_state_controller - -timeout 50"/> -->
+  
+  <!-- Start RViz for visualization -->
+  <arg name="command_args" value="-d $(find inspire_hands_control)/rviz/inspirehand_visual.rviz" />
+  <node name="rviz_shadowhand" pkg="rviz" type="rviz" respawn="false" args="$(arg command_args)" output="screen"/>
+  
+
+ 
+  
+</launch>
