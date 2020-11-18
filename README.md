@@ -1,8 +1,10 @@
-# dataglove_calib_visual
+## dataglove_calib_visual
 
-Use ShadowHand or Inspire Robotics' multifingered hand models for visualizing the dataglove recorded joint trajecotries. (could be calibrated or non-calibrated)
+Visualize human hand movements measured by datagloves on ShadowHands or Inspire Robotics' multi-fingered hands.
 
 
-Package inspire_hand_description can be found in my sign_language_robot repository.
+### Dependencies
+
+Package ```inspire_hand_description``` can be found in ```sign_language_robot``` repository.
 
 
